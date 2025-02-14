@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rentapp/data/models/car.dart';
+import 'package:rentapp/presentation/bloc/car_bloc.dart';
+import 'package:rentapp/presentation/bloc/car_event.dart';
 import 'package:rentapp/presentation/pages/maps_details_page.dart';
 import 'package:rentapp/presentation/widgets/car_card.dart';
 import 'package:rentapp/presentation/widgets/more_card.dart';
@@ -147,7 +150,9 @@ class _CardDetailsPageState extends State<CardDetailsPage>
               child: SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () => context
+                        .read<CarBloc>()
+                        .add(BookCarEvent(widget.car.contactNo)),
                     style:
                         ElevatedButton.styleFrom(backgroundColor: Colors.black),
                     child: Text(

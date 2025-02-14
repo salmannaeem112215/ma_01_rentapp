@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rentapp/domain/usecases/add_cars.dart';
+import 'package:rentapp/domain/usecases/book_car.dart';
 import 'package:rentapp/domain/usecases/delete_cars.dart';
 import 'package:rentapp/domain/usecases/get_cars.dart';
 import 'package:rentapp/domain/usecases/update_cars.dart';
@@ -11,12 +12,14 @@ class CarBloc extends Bloc<CarEvent, CarState> {
   final AddCar addCar;
   final UpdateCar updateCar;
   final DeleteCar deleteCar;
+  final BookCar bookCar;
 
   CarBloc({
     required this.getCars,
     required this.addCar,
     required this.updateCar,
     required this.deleteCar,
+    required this.bookCar,
   }) : super(CarsLoading()) {
     on<LoadCars>((event, emit) async {
       emit(CarsLoading());
@@ -50,6 +53,13 @@ class CarBloc extends Bloc<CarEvent, CarState> {
       try {
         await deleteCar(event.carId);
         add(LoadCars()); // Refresh list after deleting
+      } catch (e) {
+        emit(CarsError(e.toString()));
+      }
+    });
+    on<BookCarEvent>((event, emit) async {
+      try {
+        await bookCar(event.phoneNo);
       } catch (e) {
         emit(CarsError(e.toString()));
       }

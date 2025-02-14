@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:rentapp/data/models/car.dart';
+import 'package:rentapp/presentation/bloc/car_bloc.dart';
+import 'package:rentapp/presentation/bloc/car_event.dart';
 
 extension on String {
   LatLng get latLng {
@@ -19,11 +22,16 @@ extension on String {
   }
 }
 
-class MapsDetailsPage extends StatelessWidget {
+class MapsDetailsPage extends StatefulWidget {
   final Car car;
 
   const MapsDetailsPage({super.key, required this.car});
 
+  @override
+  State<MapsDetailsPage> createState() => _MapsDetailsPageState();
+}
+
+class _MapsDetailsPageState extends State<MapsDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,7 +47,7 @@ class MapsDetailsPage extends StatelessWidget {
         children: [
           FlutterMap(
             options: MapOptions(
-              initialCenter: car.location.latLng,
+              initialCenter: widget.car.location.latLng,
               initialZoom: 13,
             ),
             children: [
@@ -51,7 +59,7 @@ class MapsDetailsPage extends StatelessWidget {
               MarkerLayer(
                 markers: [
                   Marker(
-                    point: car.location
+                    point: widget.car.location
                         .latLng, // Place the marker at the center position
                     child: Icon(
                       Icons.location_on, // Customize your marker here
@@ -64,14 +72,20 @@ class MapsDetailsPage extends StatelessWidget {
             ],
           ),
           Positioned(
-              bottom: 0, left: 0, right: 0, child: carDetailsCard(car: car))
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: carDetailsCard(
+                context: context,
+                car: widget.car,
+              ))
         ],
       ),
     );
   }
 }
 
-Widget carDetailsCard({required Car car}) {
+Widget carDetailsCard({required BuildContext context, required Car car}) {
   return SizedBox(
     height: 350,
     child: Stack(
@@ -166,12 +180,14 @@ Widget carDetailsCard({required Car car}) {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '\$${car.pricePerDay}/day',
+                      'RS ${car.pricePerDay}/day',
                       style:
                           TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                     ),
                     ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () => context
+                            .read<CarBloc>()
+                            .add(BookCarEvent(car.contactNo)),
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.black),
                         child: Text(

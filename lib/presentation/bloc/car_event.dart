@@ -19,3 +19,8 @@ class DeleteCarEvent extends CarEvent {
   final String carId;
   DeleteCarEvent(this.carId);
 }
+
+class BookCarEvent extends CarEvent {
+  final String phoneNo;
+  BookCarEvent(this.phoneNo);
+}
