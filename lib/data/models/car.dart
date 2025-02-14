@@ -13,7 +13,7 @@ class Car {
   }
 
   Car({
-    required this.id,
+    this.id = '',
     required this.model,
     required this.contactNo,
     required this.location,

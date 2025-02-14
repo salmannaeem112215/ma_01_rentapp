@@ -4,8 +4,9 @@ import 'package:rentapp/presentation/pages/car_details_page.dart';
 
 class CarCard extends StatelessWidget {
   final Car car;
+  final List<Car> cars;
 
-  const CarCard({super.key, required this.car});
+  const CarCard({super.key, required this.car, required this.cars});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,7 @@ class CarCard extends StatelessWidget {
             MaterialPageRoute(
                 builder: (context) => CardDetailsPage(
                       car: car,
-                      cars: [],
+                      cars: cars,
                     )));
       },
       child: Container(

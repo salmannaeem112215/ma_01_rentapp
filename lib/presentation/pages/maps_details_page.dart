@@ -3,6 +3,22 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:rentapp/data/models/car.dart';
 
+extension on String {
+  LatLng get latLng {
+    try {
+      List<String> parts = split(',');
+      if (parts.length != 2) throw FormatException("Invalid format");
+
+      double lat = double.parse(parts[0].trim());
+      double lng = double.parse(parts[1].trim());
+
+      return LatLng(lat, lng);
+    } catch (e) {
+      return LatLng(0, 0);
+    }
+  }
+}
+
 class MapsDetailsPage extends StatelessWidget {
   final Car car;
 
@@ -23,7 +39,7 @@ class MapsDetailsPage extends StatelessWidget {
         children: [
           FlutterMap(
             options: MapOptions(
-              initialCenter: LatLng(51, -0.09),
+              initialCenter: car.location.latLng,
               initialZoom: 13,
             ),
             children: [
@@ -31,6 +47,19 @@ class MapsDetailsPage extends StatelessWidget {
                 urlTemplate:
                     "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
                 subdomains: ['a', 'b', 'c'],
+              ),
+              MarkerLayer(
+                markers: [
+                  Marker(
+                    point: car.location
+                        .latLng, // Place the marker at the center position
+                    child: Icon(
+                      Icons.location_on, // Customize your marker here
+                      size: 40.0,
+                      color: Colors.black,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

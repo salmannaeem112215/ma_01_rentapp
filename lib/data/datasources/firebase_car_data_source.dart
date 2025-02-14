@@ -10,12 +10,14 @@ class FirebaseCarDataSource {
 
   Future<List<Car>> getCars() async {
     var snapshot = await _collection.get();
-    return snapshot.docs
+    final cars = snapshot.docs
         .map((doc) => Car.fromMap(
               doc.data(),
               doc.id,
             ))
         .toList();
+    cars.sort((a, b) => b.model.compareTo(a.model)); // Sort by name first
+    return cars;
   }
 
   Future<void> addCar(Car car) async {

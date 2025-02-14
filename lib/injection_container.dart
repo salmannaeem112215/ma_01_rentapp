@@ -20,12 +20,19 @@ void initInjection() {
     getIt.registerLazySingleton<CarRepository>(
         () => CarRepositoryImpl(getIt<FirebaseCarDataSource>()));
     getIt.registerLazySingleton<GetCars>(() => GetCars(getIt<CarRepository>()));
-    getIt.registerFactory(() => CarBloc(
-          getCars: getIt<GetCars>(),
-          addCar: getIt<AddCar>(),
-          updateCar: getIt<UpdateCar>(),
-          deleteCar: getIt<DeleteCar>(),
-        ));
+    getIt.registerLazySingleton<AddCar>(() => AddCar(getIt<CarRepository>()));
+    getIt.registerLazySingleton<UpdateCar>(
+        () => UpdateCar(getIt<CarRepository>()));
+    getIt.registerLazySingleton<DeleteCar>(
+        () => DeleteCar(getIt<CarRepository>()));
+    getIt.registerFactory(
+      () => CarBloc(
+        getCars: getIt<GetCars>(),
+        addCar: getIt<AddCar>(),
+        updateCar: getIt<UpdateCar>(),
+        deleteCar: getIt<DeleteCar>(),
+      ),
+    );
   } catch (e) {
     rethrow;
   }
