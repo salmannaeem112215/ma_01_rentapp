@@ -72,13 +72,18 @@ class _MapsDetailsPageState extends State<MapsDetailsPage> {
             ],
           ),
           Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: carDetailsCard(
-                context: context,
-                car: widget.car,
-              ))
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Center(
+              child: Container(
+                  constraints: BoxConstraints(maxWidth: 600),
+                  child: carDetailsCard(
+                    context: context,
+                    car: widget.car,
+                  )),
+            ),
+          ),
         ],
       ),
     );

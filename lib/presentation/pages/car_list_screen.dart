@@ -21,25 +21,27 @@ class CarListScreen extends StatelessWidget {
       body: BlocBuilder<CarBloc, CarState>(
         builder: (context, state) {
           if (state is CarsLoading) {
-            return ListView.builder(
-              // itemCount: state.cars.length,
-              itemBuilder: (context, index) {
-                return CarCard(
-                  car: null,
-                  cars: null,
-                );
-              },
-            );
+            return GridView.builder(
+                gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: 600,
+                  mainAxisExtent: 250,
+                ),
+                itemCount: 20,
+                itemBuilder: (context, index) => CarCard(
+                      car: null,
+                      cars: null,
+                    ));
           } else if (state is CarsLoaded) {
-            return ListView.builder(
-              itemCount: state.cars.length,
-              itemBuilder: (context, index) {
-                return CarCard(
-                  car: state.cars[index],
-                  cars: state.cars,
-                );
-              },
-            );
+            return GridView.builder(
+                gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: 600,
+                  mainAxisExtent: 250,
+                ),
+                itemCount: state.cars.length,
+                itemBuilder: (context, index) => CarCard(
+                      car: state.cars[index],
+                      cars: state.cars,
+                    ));
           } else if (state is CarsError) {
             return Center(
               child: Text('error : ${state.message}'),

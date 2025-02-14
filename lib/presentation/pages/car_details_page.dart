@@ -22,10 +22,6 @@ class _CardDetailsPageState extends State<CardDetailsPage>
   AnimationController? _controller;
   Animation<double>? _animation;
 
-  List<Car> get otherCars {
-    return widget.cars.where((c) => c.id != widget.car.id).toList();
-  }
-
   @override
   void initState() {
     _controller =
@@ -59,152 +55,223 @@ class _CardDetailsPageState extends State<CardDetailsPage>
       body: SingleChildScrollView(
         child: Column(
           children: [
-            CarCard(
-              car: widget.car,
-              cars: widget.cars,
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      padding: EdgeInsets.all(20),
-                      decoration: BoxDecoration(
-                          color: Color(0xffF3F3F3),
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.black12,
-                                blurRadius: 10,
-                                spreadRadius: 5)
-                          ]),
-                      child: Column(
-                        children: [
-                          CircleAvatar(
-                            radius: 40,
-                            backgroundImage: AssetImage('assets/user.png'),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            'Jane Cooper',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            '',
-                            style: TextStyle(color: Colors.grey),
-                          ),
-                        ],
-                      ),
+            Wrap(
+              children: [
+                Container(
+                  constraints: BoxConstraints(maxWidth: 450),
+                  child: CarCard(
+                    car: widget.car,
+                    cars: widget.cars,
+                  ),
+                ),
+                // SizedBox(
+                //   height: 20,
+                // ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: Container(
+                    constraints: BoxConstraints(maxWidth: 450),
+                    child: _CarDetails(
+                      widget: widget,
+                      animation: _animation,
                     ),
                   ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    MapsDetailsPage(car: widget.car)));
-                      },
-                      child: Container(
-                        height: 170,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Colors.black12,
-                                  blurRadius: 10,
-                                  spreadRadius: 5)
-                            ]),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
-                          child: Transform.scale(
-                            scale: _animation!.value,
-                            alignment: Alignment.center,
-                            child: Image.asset(
-                              'assets/maps.png',
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                    onPressed: () => context
-                        .read<CarBloc>()
-                        .add(BookCarEvent(widget.car.contactNo)),
-                    style:
-                        ElevatedButton.styleFrom(backgroundColor: Colors.black),
-                    child: Text(
-                      'Book Now',
-                      style: TextStyle(color: Colors.white),
-                    )),
-              ),
+                ),
+              ],
             ),
             Divider(
               thickness: 0,
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Row(
-                children: [
-                  Text(
-                    "Other Cars",
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.all(20),
-              child: Column(
-                  children: otherCars
-                      .map((car) => [
-                            GestureDetector(
-                                onTap: () {
-                                  Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => CardDetailsPage(
-                                                car: car,
-                                                cars: widget.cars,
-                                              )));
-                                },
-                                child: MoreCard(car: car)),
-                            SizedBox(
-                              height: 5,
-                            )
-                          ])
-                      .expand((e) => e.toList())
-                      .toList()),
+            _OtherCarsHeader(),
+            SizedBox(height: 10),
+            _OtherCarCards(
+              car: widget.car,
+              cars: widget.cars,
             ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class _OtherCarCards extends StatelessWidget {
+  const _OtherCarCards({
+    required this.cars,
+    required this.car,
+  });
+
+  final List<Car> cars;
+  final Car car;
+  List<Car> get otherCars {
+    return cars.where((c) => c.id != car.id).toList();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Wrap(
+        runSpacing: 10,
+        spacing: 20,
+        children: otherCars
+            .map(
+              (car) => Container(
+                constraints: BoxConstraints(maxWidth: 400),
+                child: GestureDetector(
+                    onTap: () {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CardDetailsPage(
+                                    car: car,
+                                    cars: cars,
+                                  )));
+                    },
+                    child: MoreCard(car: car)),
+              ),
+            )
+            .toList(),
+      ),
+    );
+  }
+}
+
+class _OtherCarsHeader extends StatelessWidget {
+  const _OtherCarsHeader({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Row(
+        children: [
+          Text(
+            "Other Cars",
+            style: TextStyle(
+              color: Colors.grey,
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _CarDetails extends StatelessWidget {
+  const _CarDetails({
+    super.key,
+    required this.widget,
+    required Animation<double>? animation,
+  }) : _animation = animation;
+
+  final CardDetailsPage widget;
+  final Animation<double>? _animation;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Row(
+            children: [
+              Expanded(
+                child: Container(
+                  padding: EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                      color: Color(0xffF3F3F3),
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.black12,
+                            blurRadius: 10,
+                            spreadRadius: 5)
+                      ]),
+                  child: Column(
+                    children: [
+                      CircleAvatar(
+                        radius: 40,
+                        backgroundImage: AssetImage('assets/user.png'),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        'Jane Cooper',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        '',
+                        style: TextStyle(color: Colors.grey),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: 20,
+              ),
+              Expanded(
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                MapsDetailsPage(car: widget.car)));
+                  },
+                  child: Container(
+                    height: 170,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.black12,
+                              blurRadius: 10,
+                              spreadRadius: 5)
+                        ]),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: Transform.scale(
+                        scale: _animation!.value,
+                        alignment: Alignment.center,
+                        child: Image.asset(
+                          'assets/maps.png',
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: SizedBox(
+            width: double.infinity,
+            height: 40,
+            child: ElevatedButton(
+                onPressed: () => context
+                    .read<CarBloc>()
+                    .add(BookCarEvent(widget.car.contactNo)),
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
+                child: Text(
+                  'Book Now',
+                  style: TextStyle(color: Colors.white),
+                )),
+          ),
+        ),
+      ],
     );
   }
 }
