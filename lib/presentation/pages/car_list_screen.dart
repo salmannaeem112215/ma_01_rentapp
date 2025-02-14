@@ -21,8 +21,14 @@ class CarListScreen extends StatelessWidget {
       body: BlocBuilder<CarBloc, CarState>(
         builder: (context, state) {
           if (state is CarsLoading) {
-            return Center(
-              child: CircularProgressIndicator(),
+            return ListView.builder(
+              // itemCount: state.cars.length,
+              itemBuilder: (context, index) {
+                return CarCard(
+                  car: null,
+                  cars: null,
+                );
+              },
             );
           } else if (state is CarsLoaded) {
             return ListView.builder(
