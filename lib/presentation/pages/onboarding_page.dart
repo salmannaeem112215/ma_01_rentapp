@@ -12,7 +12,6 @@ class _OnboardingPageState extends State<OnboardingPage> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    print(width);
     return Scaffold(
       backgroundColor: Color(0xff2C2B34),
       body: width > 1080 ? desktopView() : mobileView(),
@@ -51,9 +50,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
 }
 
 class _ImageContent extends StatelessWidget {
-  const _ImageContent({
-    super.key,
-  });
+  const _ImageContent();
 
   @override
   Widget build(BuildContext context) {
@@ -66,9 +63,7 @@ class _ImageContent extends StatelessWidget {
 }
 
 class _TextualContent extends StatelessWidget {
-  const _TextualContent({
-    super.key,
-  });
+  const _TextualContent();
 
   @override
   Widget build(BuildContext context) {

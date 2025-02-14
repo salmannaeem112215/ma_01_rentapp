@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rentapp/data/models/car.dart';
 import 'package:rentapp/presentation/bloc/car_bloc.dart';
-import 'package:rentapp/presentation/bloc/car_event.dart';
 import 'package:rentapp/presentation/bloc/car_state.dart';
 import 'package:rentapp/presentation/widgets/car_card.dart';
 

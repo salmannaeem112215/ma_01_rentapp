@@ -138,9 +138,7 @@ class _OtherCarCards extends StatelessWidget {
 }
 
 class _OtherCarsHeader extends StatelessWidget {
-  const _OtherCarsHeader({
-    super.key,
-  });
+  const _OtherCarsHeader();
 
   @override
   Widget build(BuildContext context) {
@@ -164,7 +162,6 @@ class _OtherCarsHeader extends StatelessWidget {
 
 class _CarDetails extends StatelessWidget {
   const _CarDetails({
-    super.key,
     required this.widget,
     required Animation<double>? animation,
   }) : _animation = animation;
