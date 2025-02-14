@@ -1,32 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:rentapp/data/models/car.dart';
-import 'package:rentapp/presentation/pages/MapsDetailsPage.dart';
+import 'package:rentapp/presentation/pages/maps_details_page.dart';
 import 'package:rentapp/presentation/widgets/car_card.dart';
 import 'package:rentapp/presentation/widgets/more_card.dart';
 
 class CardDetailsPage extends StatefulWidget {
   final Car car;
 
-  const CardDetailsPage({super.key, required this.car});
+  final List<Car> cars;
+  const CardDetailsPage({super.key, required this.car, required this.cars});
 
   @override
   State<CardDetailsPage> createState() => _CardDetailsPageState();
 }
 
-class _CardDetailsPageState extends State<CardDetailsPage> with SingleTickerProviderStateMixin {
+class _CardDetailsPageState extends State<CardDetailsPage>
+    with SingleTickerProviderStateMixin {
   AnimationController? _controller;
   Animation<double>? _animation;
 
+  List<Car> get otherCars {
+    return widget.cars.where((c) => c.id != widget.car.id).toList();
+  }
+
   @override
   void initState() {
-    _controller = AnimationController(
-      duration: const Duration(seconds: 3),
-      vsync: this
-    );
+    _controller =
+        AnimationController(duration: const Duration(seconds: 3), vsync: this);
 
     _animation = Tween<double>(begin: 1.0, end: 1.5).animate(_controller!)
-    ..addListener(() { setState(() {
-    }); });
+      ..addListener(() {
+        setState(() {});
+      });
 
     _controller!.forward();
 
@@ -45,16 +50,17 @@ class _CardDetailsPageState extends State<CardDetailsPage> with SingleTickerProv
       appBar: AppBar(
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.info_outline),
-            Text(' Information')
-          ],
+          children: [Icon(Icons.info_outline), Text(' Information')],
         ),
       ),
       body: Column(
         children: [
-          CarCard(car: Car(model: widget.car.model, distance: widget.car.distance, fuelCapacity: widget.car.fuelCapacity, pricePerHour: widget.car.pricePerHour)),
-          SizedBox(height: 20,),
+          CarCard(
+            car: widget.car,
+          ),
+          SizedBox(
+            height: 20,
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Row(
@@ -69,28 +75,40 @@ class _CardDetailsPageState extends State<CardDetailsPage> with SingleTickerProv
                           BoxShadow(
                               color: Colors.black12,
                               blurRadius: 10,
-                              spreadRadius: 5
-                          )
-                        ]
-                    ),
+                              spreadRadius: 5)
+                        ]),
                     child: Column(
                       children: [
-                        CircleAvatar(radius: 40, backgroundImage: AssetImage('assets/user.png'),),
-                        SizedBox(height: 10,),
-                        Text('Jane Cooper',style: TextStyle(fontWeight: FontWeight.bold),),
-                        Text('\$4,253',style: TextStyle(color: Colors.grey),),
+                        CircleAvatar(
+                          radius: 40,
+                          backgroundImage: AssetImage('assets/user.png'),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          'Jane Cooper',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          '',
+                          style: TextStyle(color: Colors.grey),
+                        ),
                       ],
                     ),
                   ),
                 ),
-                SizedBox(width: 20,),
+                SizedBox(
+                  width: 20,
+                ),
                 Expanded(
                   child: GestureDetector(
-                    onTap: (){
+                    onTap: () {
                       Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => MapsDetailsPage(car: widget.car))
-                      );
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  MapsDetailsPage(car: widget.car)));
                     },
                     child: Container(
                       height: 170,
@@ -100,16 +118,17 @@ class _CardDetailsPageState extends State<CardDetailsPage> with SingleTickerProv
                             BoxShadow(
                                 color: Colors.black12,
                                 blurRadius: 10,
-                                spreadRadius: 5
-                            )
-                          ]
-                      ),
+                                spreadRadius: 5)
+                          ]),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(20),
                         child: Transform.scale(
                           scale: _animation!.value,
                           alignment: Alignment.center,
-                          child: Image.asset('assets/maps.png',fit: BoxFit.cover,),
+                          child: Image.asset(
+                            'assets/maps.png',
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                     ),
@@ -118,17 +137,63 @@ class _CardDetailsPageState extends State<CardDetailsPage> with SingleTickerProv
               ],
             ),
           ),
+          SizedBox(
+            height: 10,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                  onPressed: () {},
+                  style:
+                      ElevatedButton.styleFrom(backgroundColor: Colors.black),
+                  child: Text(
+                    'Book Now',
+                    style: TextStyle(color: Colors.white),
+                  )),
+            ),
+          ),
+          Divider(
+            thickness: 0,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
+              children: [
+                Text(
+                  "Other Cars",
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+          ),
           Container(
             padding: EdgeInsets.all(20),
             child: Column(
-              children: [
-                MoreCard(car: Car(model: widget.car.model+"-1", distance: widget.car.distance+100, fuelCapacity: widget.car.fuelCapacity+100, pricePerHour: widget.car.pricePerHour+10)),
-                SizedBox(height: 5,),
-                MoreCard(car: Car(model: widget.car.model+"-2", distance: widget.car.distance+200, fuelCapacity: widget.car.fuelCapacity+200, pricePerHour: widget.car.pricePerHour+20)),
-                SizedBox(height: 5,),
-                MoreCard(car: Car(model: widget.car.model+"-3", distance: widget.car.distance+300, fuelCapacity: widget.car.fuelCapacity+300, pricePerHour: widget.car.pricePerHour+30)),
-              ],
-            ),
+                children: otherCars
+                    .map((car) => [
+                          GestureDetector(
+                              onTap: () {
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => CardDetailsPage(
+                                              car: car,
+                                              cars: [],
+                                            )));
+                              },
+                              child: MoreCard(car: car)),
+                          SizedBox(
+                            height: 5,
+                          )
+                        ])
+                    .expand((e) => e.toList())
+                    .toList()),
           )
         ],
       ),

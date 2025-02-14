@@ -10,31 +10,37 @@ class CarCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => CardDetailsPage(car: car,))
-        );
+            MaterialPageRoute(
+                builder: (context) => CardDetailsPage(
+                      car: car,
+                      cars: [],
+                    )));
       },
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
         padding: EdgeInsets.all(20),
         decoration: BoxDecoration(
-          color: Color(0xffF3F3F3),
-          borderRadius: BorderRadius.circular(20),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black12,
-              blurRadius: 10,
-              spreadRadius: 5
-            )
-          ]
-        ),
+            color: Color(0xffF3F3F3),
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: [
+              BoxShadow(color: Colors.black12, blurRadius: 10, spreadRadius: 5)
+            ]),
         child: Column(
           children: [
-            Image.asset('assets/car_image.png', height: 120,),
-            Text(car.model, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),),
-            SizedBox(height: 10,),
+            Image.asset(
+              'assets/car_image.png',
+              height: 120,
+            ),
+            Text(
+              car.model,
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            ),
+            SizedBox(
+              height: 10,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -55,7 +61,7 @@ class CarCard extends StatelessWidget {
                   ],
                 ),
                 Text(
-                    '\$${car.pricePerHour.toStringAsFixed(2)}/h',
+                  'RS ${car.pricePerDay.toInt()}/day',
                   style: TextStyle(fontSize: 16),
                 )
               ],

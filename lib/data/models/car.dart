@@ -1,17 +1,37 @@
+import 'package:flutter/material.dart';
+
 class Car {
+  final String id;
   final String model;
-  final double distance;
+  final String location;
+  final String address;
+  final String contactNo;
   final double fuelCapacity;
-  final double pricePerHour;
+  final double pricePerDay;
+  double get distance {
+    return 10.0;
+  }
 
-  Car({required this.model, required this.distance, required this.fuelCapacity, required this.pricePerHour});
+  Car({
+    required this.id,
+    required this.model,
+    required this.contactNo,
+    required this.location,
+    required this.address,
+    required this.fuelCapacity,
+    required this.pricePerDay,
+  });
 
-  factory Car.fromMap(Map<String, dynamic> map) {
+  factory Car.fromMap(Map<String, dynamic> map, [String id = '']) {
+    debugPrint("TEMP CAR $map");
+
     return Car(
-      model: map['model'],
-      distance: map['distance'],
-      fuelCapacity: map['fuelCapacity'],
-      pricePerHour: map['pricePerHour']
-    );
+        id: id,
+        model: map['model'],
+        contactNo: map['contactNo'],
+        location: map['location'],
+        address: map['address'],
+        fuelCapacity: double.parse(map['fuelCapacity'].toString()),
+        pricePerDay: double.parse(map['pricePerDay'].toString()));
   }
 }

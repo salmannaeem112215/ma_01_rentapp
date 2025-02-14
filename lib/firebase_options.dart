@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -28,15 +25,9 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for windows - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return windows;
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -50,20 +41,49 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'YOUR_OWN_KEY',
-    appId: '1:961519639955:android:eeef99891c5b9ed27f1c66',
-    messagingSenderId: '961519639955',
-    projectId: 'rentapp-fg-x',
-    storageBucket: 'rentapp-fg-x.appspot.com',
+    apiKey: 'AIzaSyBGicPEgI043aLppwQCUMXvAkchjrvvRpI',
+    appId: '1:188121960005:android:09b6ce990f2258fc719d2c',
+    messagingSenderId: '188121960005',
+    projectId: 'ma-01-carrentapp',
+    storageBucket: 'ma-01-carrentapp.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCijXXUQRj7GQMR-7ZeicrhgS3j0VG7m_E',
-    appId: '1:961519639955:ios:4e1e6305b65a216f7f1c66',
-    messagingSenderId: '961519639955',
-    projectId: 'rentapp-fg-x',
-    storageBucket: 'rentapp-fg-x.appspot.com',
-    iosBundleId: 'com.example.rentapp',
+    apiKey: 'AIzaSyDLnrVAnJTl0m7sUB--Twx8-U_UsNnwh_g',
+    appId: '1:188121960005:ios:59cc93f797a656ed719d2c',
+    messagingSenderId: '188121960005',
+    projectId: 'ma-01-carrentapp',
+    storageBucket: 'ma-01-carrentapp.firebasestorage.app',
+    iosBundleId: 'com.msalmannaeem.carrentapp',
+  );
+
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyBaVW3Uw8V-P-S3llTii5A0rs9X96GZatI',
+    appId: '1:188121960005:web:7dcac3bc55581172719d2c',
+    messagingSenderId: '188121960005',
+    projectId: 'ma-01-carrentapp',
+    authDomain: 'ma-01-carrentapp.firebaseapp.com',
+    storageBucket: 'ma-01-carrentapp.firebasestorage.app',
+    measurementId: 'G-6Z6JQDWM8Q',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyDLnrVAnJTl0m7sUB--Twx8-U_UsNnwh_g',
+    appId: '1:188121960005:ios:59cc93f797a656ed719d2c',
+    messagingSenderId: '188121960005',
+    projectId: 'ma-01-carrentapp',
+    storageBucket: 'ma-01-carrentapp.firebasestorage.app',
+    iosBundleId: 'com.msalmannaeem.carrentapp',
+  );
+
+  static const FirebaseOptions windows = FirebaseOptions(
+    apiKey: 'AIzaSyBaVW3Uw8V-P-S3llTii5A0rs9X96GZatI',
+    appId: '1:188121960005:web:a629c73e6baf1889719d2c',
+    messagingSenderId: '188121960005',
+    projectId: 'ma-01-carrentapp',
+    authDomain: 'ma-01-carrentapp.firebaseapp.com',
+    storageBucket: 'ma-01-carrentapp.firebasestorage.app',
+    measurementId: 'G-Z7KSNCPWC7',
   );
 
 }

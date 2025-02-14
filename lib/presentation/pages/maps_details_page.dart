@@ -67,7 +67,7 @@ Widget carDetailsCard({required Car car}) {
                 height: 20,
               ),
               Text(
-                '${car.model}',
+                car.model,
                 style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
@@ -102,7 +102,7 @@ Widget carDetailsCard({required Car car}) {
                     width: 5,
                   ),
                   Text(
-                    '${car.fuelCapacity.toString()}',
+                    car.fuelCapacity.toString(),
                     style: TextStyle(color: Colors.white, fontSize: 14),
                   ),
                 ],
@@ -137,7 +137,7 @@ Widget carDetailsCard({required Car car}) {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '\$${car.pricePerHour}/day',
+                      '\$${car.pricePerDay}/day',
                       style:
                           TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                     ),
